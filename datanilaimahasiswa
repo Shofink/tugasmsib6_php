@@ -1,0 +1,104 @@
+<?php
+
+$s1 = ['Nama'=>'Azifah Syafiah', 'NIM'=>12345, 'Nilai'=>90];
+$s2 = ['Nama'=>'Maryam Fathiyyah', 'NIM'=>18767, 'Nilai'=>85];
+$s3 = ['Nama'=>'Najwa Shafa', 'NIM'=>13165, 'Nilai'=>95];
+$s4 = ['Nama'=>'Khansa Nadia', 'NIM'=>15412, 'Nilai'=>80];
+$s5 = ['Nama'=>'Wildani Fadhillah', 'NIM'=>12775, 'Nilai'=>100];
+$s6 = ['Nama'=>'Alif Fadlu', 'NIM'=>19765, 'Nilai'=>87];
+$s7 = ['Nama'=>'Fatih', 'NIM'=>12875, 'Nilai'=>75];
+$s8 = ['Nama'=>'Syifa Hadju', 'NIM'=>11976, 'Nilai'=>45];
+$s9 = ['Nama'=>'Zayn Malik', 'NIM'=>14765, 'Nilai'=>65];
+$s10 = ['Nama'=>'Rere', 'NIM'=>19975, 'Nilai'=>70];
+$s11 = ['Nama'=>'Arsya deana', 'NIM'=>13321, 'Nilai'=>75];
+$s12 = ['Nama'=>'Pefita Maharani', 'NIM'=>17642, 'Nilai'=>50];
+$s13 = ['Nama'=>'Nurhikmah', 'NIM'=>16643, 'Nilai'=>100];
+$s14 = ['Nama'=>'Iqbal', 'NIM'=>17433, 'Nilai'=>40];
+$s15 = ['Nama'=>'Bambang Hermansyah', 'NIM'=>19753, 'Nilai'=>79];
+
+$ar_siswa= [$s1, $s2, $s3, $s4, $s5, $s6, $s7, $s8, $s9, $s10, $s11, $s12, $s13, $s14, $s15];
+$ar_judul = ['No', 'Nama Mahasiswa', 'NIM', 'Nilai', 'Keterangan', 'Grade', 'Predikat'];
+
+$jumlah_nilai = array_column($ar_siswa,'Nilai');
+$nilai_total = array_sum($jumlah_nilai);
+$nilai_tertinggi = max($jumlah_nilai);
+$nilai_terendah = min($jumlah_nilai);
+$jumlah_siswa = count($jumlah_nilai);
+$nilai_rata2 = $nilai_total / $jumlah_siswa;
+
+$keterangan = [
+    'Nilai Tertinggi'=>$nilai_tertinggi,
+    'Nilai Terendah'=>$nilai_terendah,
+    'Nilai Rata2'=>$nilai_rata2
+];
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Nilais</title>
+</head>
+<body>
+<h3 align="center">Daftar Nilai Mahasiswa</h3>
+    <table border="1" cellspacing="1" cellpadding="10" align="center">
+        <thead>
+            <tr >
+            <?php
+                foreach($ar_judul as $judul){?>
+                    <th><?= $judul ?></th>
+                    <?php } ?>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+            $no=1;
+            foreach ($ar_siswa as $siswa){ 
+
+            $ket = ($siswa['Nilai'] >=60) ? 'LULUS' : 'GAGAL';
+
+            if ($siswa['Nilai'] >=85 && $siswa['Nilai'] <=100) $grade='A';
+            else if ($siswa['Nilai'] >=75 && $siswa['Nilai'] <=85 ) $grade='B';
+            else if ($siswa['Nilai'] >=50 && $siswa['Nilai'] <=75 ) $grade='C';
+            else $grade='D';
+
+            switch($grade){
+                case 'A':
+                    $predikat="Memuaskan";
+                    break;
+                case 'B':
+                    $predikat="Bagus";
+                    break;
+                case 'C':
+                    $predikat="Tidak Bagus";
+                    break;
+                default:
+                    $predikat='Sangat Tidak Bagus';
+            }
+        
+            ?>
+            <tr>
+                <td><?= $no++ ?></td>
+                <td><?= $siswa['Nama'] ?></td>
+                <td><?= $siswa['NIM'] ?></td>
+                <td><?= $siswa['Nilai'] ?></td>
+                <td><?= $ket ?></td>
+                <td><?= $grade?></td>
+                <td><?=$predikat?></td>
+            </tr>
+            <?php } ?>
+            </tbody>
+            <tfoot>
+            <?php foreach($keterangan as $kett => $hasil){ ?>
+
+                <tr>
+                    <th colspan="3"><?= $kett ?></th>
+                    <th colspan="5"><?= $hasil ?></th>
+                </tr>
+
+          <?php }?>
+        </tfoot>
+    </table>
+</body>
+</html>
